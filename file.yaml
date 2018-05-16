@@ -1,0 +1,30 @@
+# Copyright 2017, Google, Inc.
+# Licensed under the Apache License, Version 2.0 (the "License")
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: node-example-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: node-example
+    spec:
+      containers:
+      - name: node-example
+        image: gowrishankar0013/node-example
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+          - name: my-config
+            mountPath: /usr/src/app/config
+          - name: my-secret
+            mountPath: /usr/src/app/secret
+      volumes:
+      - name: my-config
+        configMap:
+          name: my-config
+      - name: my-secret
+        secret:
+          secretName: my-secret
